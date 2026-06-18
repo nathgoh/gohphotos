@@ -1,5 +1,5 @@
 version = 1
-revision = 3
+revision = 2
 requires-python = ">=3.12"
 
 [[package]]
@@ -45,7 +45,8 @@ dependencies = [
     { name = "httpx" },
     { name = "pillow" },
     { name = "python-dotenv" },
-    { name = "waveshare-epaper" },
+    { name = "rpi-gpio" },
+    { name = "spidev" },
 ]
 
 [package.metadata]
@@ -54,7 +55,8 @@ requires-dist = [
     { name = "httpx", specifier = ">=0.28.0" },
     { name = "pillow", specifier = ">=11.0.0" },
     { name = "python-dotenv", specifier = ">=1.2.1" },
-    { name = "waveshare-epaper", specifier = ">=1.4.0" },
+    { name = "rpi-gpio", specifier = ">=0.7.1" },
+    { name = "spidev", specifier = ">=3.8" },
 ]
 
 [[package]]
@@ -221,17 +223,4 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/72/94/1a15dd82efb362ac84269196e94cf00f187f7ed21c242792a923cdb1c61f/typing_extensions-4.15.0.tar.gz", hash = "sha256:0cea48d173cc12fa28ecabc3b837ea3cf6f38c6d1136f85cbaaf598984861466", size = 109391, upload-time = "2025-08-25T13:49:26.313Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/18/67/36e9267722cc04a6b9f15c7f3441c2363321a3ea07da7ae0c0707beb2a9c/typing_extensions-4.15.0-py3-none-any.whl", hash = "sha256:f0fa19c6845758ab08074a0cfa8b7aecb71c999ca73d62883bc25cc018c4e548", size = 44614, upload-time = "2025-08-25T13:49:24.86Z" },
-]
-
-[[package]]
-name = "waveshare-epaper"
-version = "1.4.0"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "rpi-gpio" },
-    { name = "spidev" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/53/5c/71900a7901ca8fbdd59402e675585bdd2e94e28296729c06a883b5af51a3/waveshare_epaper-1.4.0.tar.gz", hash = "sha256:80e73bfdd51ce2fa644469503262e38cfffd385c102bf6716c183f309eb2679c", size = 73229, upload-time = "2026-02-21T07:34:16.378Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/d7/ea/2b8de292b908e06e0d12a0b4ace188b3e60584229c66ffcdf99261325148/waveshare_epaper-1.4.0-py2.py3-none-any.whl", hash = "sha256:e04fc8617cc03b3d8a258cc4c1f187fe1ced993e8a9f220aa9a150488d50dd40", size = 197788, upload-time = "2026-02-21T07:34:18.223Z" },
 ]

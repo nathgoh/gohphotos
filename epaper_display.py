@@ -1,4 +1,4 @@
-import epaper
+import epaper_7in3
 
 from io import BytesIO
 from PIL import Image, ImageOps
@@ -18,7 +18,7 @@ _PALETTE_RGB = [
 ]
 _PALETTE_RGB += [0] * (256 * 3 - len(_PALETTE_RGB))
 
-_PALETTE_IMAGE = Image.new("P", (1, 1))
+_PALETTE_IMAGE: Image = Image.new("P", (1, 1))
 _PALETTE_IMAGE.putpalette(_PALETTE_RGB)
 
 
@@ -32,7 +32,7 @@ def _prepare_image(image_bytes: bytes) -> Image.Image:
 class EpaperDisplay:
     def __init__(self):
 
-        self._epd = epaper.epaper('epd7in3e').EPD()
+        self._epd = epaper_7in3.EPD()
         self._epd.init()
 
     def __enter__(self):
