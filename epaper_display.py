@@ -23,9 +23,9 @@ _PALETTE_IMAGE.putpalette(_PALETTE_RGB)
 
 
 def _prepare_image(image_bytes: bytes) -> Image.Image:
-    img = Image.open(BytesIO(image_bytes)).convert("RGB")
-    img = ImageOps.fit(img, (800, 480), method=Image.Resampling.LANCZOS)
-    img = img.quantize(palette=_PALETTE_IMAGE, dither=Image.Dither.FLOYDSTEINBERG)
+    img: Image = Image.open(BytesIO(image_bytes)).convert("RGB")
+    img: Image = ImageOps.fit(img, (800, 480), method=Image.Resampling.LANCZOS)
+    img: Image = img.quantize(palette=_PALETTE_IMAGE, dither=Image.Dither.FLOYDSTEINBERG)
     return img.convert("RGB")
 
 
@@ -43,11 +43,11 @@ class EpaperDisplay:
 
     def show(self, image_bytes: bytes) -> None:
         img: Image = _prepare_image(image_bytes)
-        self._epd.display(self._epd.getbuffer(img))
+        self._epd.display(self._epd.get_buffer(img))
         self.sleep()
 
     def sleep(self) -> None:
         self._epd.sleep()
 
     def clear(self) -> None:
-        self._epd.Clear()
+        self._epd.clear()
