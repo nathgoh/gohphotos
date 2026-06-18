@@ -42,7 +42,9 @@ def load_state(path: Path, album_id: str) -> dict:
 
 
 def save_state(path: Path, state: dict) -> None:
-    path.write_text(json.dumps(state))
+    tmp = path.with_suffix(".tmp")
+    tmp.write_text(json.dumps(state))
+    tmp.replace(path)
 
 
 def schedule_wakeup(minutes: int = WAKEUP_MINUTES) -> None:
@@ -59,6 +61,10 @@ def schedule_wakeup(minutes: int = WAKEUP_MINUTES) -> None:
 
 
 def main() -> None:
+    if ImmichClient is None or EpaperDisplay is None:
+        raise RuntimeError(
+            "Required modules unavailable — are you running on a Raspberry Pi?"
+        )
     album_id = os.getenv("ALBUM_ID")
     if not album_id:
         raise ValueError("ALBUM_ID must be set in .env")
@@ -68,9 +74,16 @@ def main() -> None:
     with ImmichClient() as client:
         if not state["queue"]:
             log.info("Queue empty — fetching album %s", album_id)
-            assets = client.get_album_assets(album_id)
+            try:
+                assets = client.get_album_assets(album_id)
+            except Exception as e:
+                log.error("Failed to fetch album %s: %s", album_id, e)
+                schedule_wakeup()
+                subprocess.run(["sudo", "shutdown", "-h", "now"], check=False)
+                return
             if not assets:
                 log.error("Album %s is empty — nothing to display", album_id)
+                subprocess.run(["sudo", "shutdown", "-h", "now"], check=False)
                 return
             ids = [a["id"] for a in assets]
             random.shuffle(ids)

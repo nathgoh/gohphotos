@@ -36,6 +36,13 @@ def test_load_state_corrupt_json(tmp_path):
     state = load_state(path, album_id="abc")
     assert state == {"album_id": "abc", "queue": []}
 
+def test_save_state_atomic(tmp_path):
+    path = tmp_path / "state.json"
+    state = {"album_id": "abc", "queue": ["id1"]}
+    save_state(path, state)
+    assert path.exists()
+    assert not (tmp_path / "state.tmp").exists()
+
 def test_schedule_wakeup_sends_correct_commands():
     fixed_now = datetime.datetime(2026, 6, 17, 12, 0, 0)
     mock_socket = MagicMock()
