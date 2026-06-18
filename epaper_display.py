@@ -41,6 +41,12 @@ class EpaperDisplay:
         self._epd = epd7in3f.EPD()
         self._epd.init()
 
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *args):
+        self.sleep()
+
     def show(self, image_bytes: bytes) -> None:
         img = _prepare_image(image_bytes)
         self._epd.display(self._epd.getbuffer(img))
