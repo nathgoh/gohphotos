@@ -1,5 +1,5 @@
 import logging
-from . import epdconfig
+from . import epd_config
 
 from PIL import Image
 
@@ -12,10 +12,10 @@ logger: logging.Logger = logging.getLogger(__name__)
 
 class EPD:
     def __init__(self):
-        self.reset_pin = epdconfig.RST_PIN
-        self.dc_pin = epdconfig.DC_PIN
-        self.busy_pin = epdconfig.BUSY_PIN
-        self.cs_pin = epdconfig.CS_PIN
+        self.reset_pin = epd_config.RST_PIN
+        self.dc_pin = epd_config.DC_PIN
+        self.busy_pin = epd_config.BUSY_PIN
+        self.cs_pin = epd_config.CS_PIN
         self.width = EPD_WIDTH
         self.height = EPD_HEIGHT
         self.BLACK  = 0x000000   #   0000  BGR
@@ -29,36 +29,36 @@ class EPD:
 
     # Hardware reset
     def reset(self):
-        epdconfig.digital_write(self.reset_pin, 1)
-        epdconfig.delay_ms(20) 
-        epdconfig.digital_write(self.reset_pin, 0)         # module reset
-        epdconfig.delay_ms(2)
-        epdconfig.digital_write(self.reset_pin, 1)
-        epdconfig.delay_ms(20)   
+        epd_config.digital_write(self.reset_pin, 1)
+        epd_config.delay_ms(20) 
+        epd_config.digital_write(self.reset_pin, 0)         # module reset
+        epd_config.delay_ms(2)
+        epd_config.digital_write(self.reset_pin, 1)
+        epd_config.delay_ms(20)   
 
     def send_command(self, command):
-        epdconfig.digital_write(self.dc_pin, 0)
-        epdconfig.digital_write(self.cs_pin, 0)
-        epdconfig.spi_writebyte([command])
-        epdconfig.digital_write(self.cs_pin, 1)
+        epd_config.digital_write(self.dc_pin, 0)
+        epd_config.digital_write(self.cs_pin, 0)
+        epd_config.spi_writebyte([command])
+        epd_config.digital_write(self.cs_pin, 1)
 
     def send_data(self, data):
-        epdconfig.digital_write(self.dc_pin, 1)
-        epdconfig.digital_write(self.cs_pin, 0)
-        epdconfig.spi_writebyte([data])
-        epdconfig.digital_write(self.cs_pin, 1)
+        epd_config.digital_write(self.dc_pin, 1)
+        epd_config.digital_write(self.cs_pin, 0)
+        epd_config.spi_writebyte([data])
+        epd_config.digital_write(self.cs_pin, 1)
         
     # send a lot of data   
     def send_data2(self, data):
-        epdconfig.digital_write(self.dc_pin, 1)
-        epdconfig.digital_write(self.cs_pin, 0)
-        epdconfig.spi_writebyte2(data)
-        epdconfig.digital_write(self.cs_pin, 1)
+        epd_config.digital_write(self.dc_pin, 1)
+        epd_config.digital_write(self.cs_pin, 0)
+        epd_config.spi_writebyte2(data)
+        epd_config.digital_write(self.cs_pin, 1)
         
     def read_busy_h(self):
         logger.debug("e-Paper busy H")
-        while(epdconfig.digital_read(self.busy_pin) == 0):      # 0: busy, 1: idle
-            epdconfig.delay_ms(5)
+        while(epd_config.digital_read(self.busy_pin) == 0):      # 0: busy, 1: idle
+            epd_config.delay_ms(5)
         logger.debug("e-Paper busy H release")
 
     def turn_on_display(self):
@@ -74,12 +74,12 @@ class EPD:
         self.ReadBusyH()
         
     def init(self):
-        if (epdconfig.module_init() != 0):
+        if (epd_config.module_init() != 0):
             return -1
         # EPD hardware init start
         self.reset()
         self.ReadBusyH()
-        epdconfig.delay_ms(30)
+        epd_config.delay_ms(30)
 
         self.send_command(0xAA)   
         self.send_data(0x49)
@@ -191,5 +191,5 @@ class EPD:
         self.send_command(0x07) # DEEP_SLEEP
         self.send_data(0XA5)
         
-        epdconfig.delay_ms(2000)
-        epdconfig.module_exit()
+        epd_config.delay_ms(2000)
+        epd_config.module_exit()
