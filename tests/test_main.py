@@ -23,3 +23,9 @@ def test_save_state_roundtrip(tmp_path):
     save_state(path, original)
     loaded = json.loads(path.read_text())
     assert loaded == original
+
+def test_load_state_corrupt_json(tmp_path):
+    path = tmp_path / "state.json"
+    path.write_text("{not valid json")
+    state = load_state(path, album_id="abc")
+    assert state == {"album_id": "abc", "queue": []}

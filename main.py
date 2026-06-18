@@ -31,9 +31,12 @@ log = logging.getLogger(__name__)
 
 def load_state(path: Path, album_id: str) -> dict:
     if path.exists():
-        data = json.loads(path.read_text())
-        if data.get("album_id") == album_id:
-            return data
+        try:
+            data = json.loads(path.read_text())
+            if data.get("album_id") == album_id:
+                return data
+        except json.JSONDecodeError:
+            log.warning("state.json is corrupt — resetting queue")
     return {"album_id": album_id, "queue": []}
 
 
