@@ -1,5 +1,11 @@
+import datetime
 import json
-from main import load_state, save_state
+from pathlib import Path
+from unittest.mock import MagicMock, patch
+
+import pytest
+
+from main import load_state, save_state, schedule_wakeup
 
 def test_load_state_missing_file(tmp_path):
     state = load_state(tmp_path / "state.json", album_id="abc")
@@ -29,10 +35,6 @@ def test_load_state_corrupt_json(tmp_path):
     path.write_text("{not valid json")
     state = load_state(path, album_id="abc")
     assert state == {"album_id": "abc", "queue": []}
-
-import datetime
-from unittest.mock import patch, MagicMock
-from main import schedule_wakeup
 
 def test_schedule_wakeup_sends_correct_commands():
     fixed_now = datetime.datetime(2026, 6, 17, 12, 0, 0)

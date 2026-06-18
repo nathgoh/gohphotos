@@ -49,6 +49,7 @@ def schedule_wakeup(minutes: int = WAKEUP_MINUTES) -> None:
     wake = datetime.datetime.now() + datetime.timedelta(minutes=minutes)
     try:
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+            s.settimeout(5)
             s.connect(("127.0.0.1", 8421))
             s.sendall(f"set_alarm_time {wake.strftime('%H:%M:%S')}\n".encode())
             s.sendall(b"set_alarm_enabled true\n")
