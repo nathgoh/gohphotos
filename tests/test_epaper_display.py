@@ -29,7 +29,7 @@ def test_prepare_image_pixels_are_palette_colors():
         (0, 255, 0),
     }
     result = _prepare_image(_make_jpeg_bytes())
-    unique = set(result.getdata())
+    unique = set(result.get_flattened_data())
     assert unique.issubset(PALETTE), f"Unexpected colors: {unique - PALETTE}"
 
 def test_prepare_image_portrait_input():
