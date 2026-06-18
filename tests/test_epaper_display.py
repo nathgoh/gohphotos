@@ -1,5 +1,4 @@
 import io
-import pytest
 from PIL import Image
 from epaper_display import _prepare_image
 

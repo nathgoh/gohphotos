@@ -3,3 +3,6 @@ state.json
 __pycache__/
 *.pyc
 .venv/
+
+# uv
+uv.lock
