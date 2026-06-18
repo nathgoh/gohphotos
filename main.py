@@ -56,3 +56,43 @@ def schedule_wakeup(minutes: int = WAKEUP_MINUTES) -> None:
         log.info("Wakeup scheduled for %s", wake.strftime("%H:%M:%S"))
     except OSError as e:
         log.warning("Could not reach PiSugar 3 server: %s", e)
+
+
+def main() -> None:
+    album_id = os.getenv("ALBUM_ID")
+    if not album_id:
+        raise ValueError("ALBUM_ID must be set in .env")
+
+    state = load_state(STATE_PATH, album_id=album_id)
+
+    with ImmichClient() as client:
+        if not state["queue"]:
+            log.info("Queue empty — fetching album %s", album_id)
+            assets = client.get_album_assets(album_id)
+            if not assets:
+                log.error("Album %s is empty — nothing to display", album_id)
+                return
+            ids = [a["id"] for a in assets]
+            random.shuffle(ids)
+            state["queue"] = ids
+            log.info("Loaded %d assets into queue", len(ids))
+
+        asset_id = state["queue"].pop(0)
+        save_state(STATE_PATH, state)
+        log.info("Displaying asset %s (%d remaining)", asset_id, len(state["queue"]))
+
+        try:
+            image_bytes = client.get_asset_thumbnail_bytes(asset_id, size="preview")
+        except Exception as e:
+            log.error("Failed to fetch asset %s: %s", asset_id, e)
+            schedule_wakeup()
+            subprocess.run(["sudo", "shutdown", "-h", "now"], check=False)
+            return
+
+    EpaperDisplay().show(image_bytes)
+    schedule_wakeup()
+    subprocess.run(["sudo", "shutdown", "-h", "now"], check=False)
+
+
+if __name__ == "__main__":
+    main()
