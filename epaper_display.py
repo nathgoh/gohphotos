@@ -42,7 +42,7 @@ class EpaperDisplay:
         self.sleep()
 
     def show(self, image_bytes: bytes) -> None:
-        img = _prepare_image(image_bytes)
+        img: Image = _prepare_image(image_bytes)
         self._epd.display(self._epd.getbuffer(img))
         self.sleep()
 

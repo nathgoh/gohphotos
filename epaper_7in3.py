@@ -78,7 +78,7 @@ class EPD:
             return -1
         # EPD hardware init start
         self.reset()
-        self.ReadBusyH()
+        self.read_busy_h()
         epd_config.delay_ms(30)
 
         self.send_command(0xAA)   
@@ -143,7 +143,7 @@ class EPD:
         self.send_data(0x2F)
 
         self.send_command(0x04)
-        self.ReadBusyH()
+        self.read_busy_h()
         return 0
 
     def get_buffer(self, image):
