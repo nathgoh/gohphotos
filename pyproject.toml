@@ -5,6 +5,8 @@ description = "Immich photo frame for Raspberry Pi with e-ink display"
 requires-python = ">=3.12"
 dependencies = [
     "httpx>=0.28.0",
+    "Pillow>=11.0.0",
     "python-dotenv>=1.2.1",
+    "waveshare-epaper>=1.4.0",
 ]
 

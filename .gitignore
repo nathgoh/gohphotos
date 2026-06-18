@@ -1,8 +1,5 @@
-# Environment
 .env
-
-# Python
+state.json
 __pycache__/
 *.pyc
-*.pyo
 .venv/
