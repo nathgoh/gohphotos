@@ -63,15 +63,15 @@ class EPD:
 
     def turn_on_display(self):
         self.send_command(0x04) # POWER_ON
-        self.ReadBusyH()
+        self.read_busy_h()
 
         self.send_command(0x12) # DISPLAY_REFRESH
         self.send_data(0X00)
-        self.ReadBusyH()
+        self.read_busy_h()
         
         self.send_command(0x02) # POWER_OFF
         self.send_data(0X00)
-        self.ReadBusyH()
+        self.read_busy_h()
         
     def init(self):
         if (epd_config.module_init() != 0):
@@ -167,7 +167,7 @@ class EPD:
 
         # PIL does not support 4 bit color, so pack the 4 bits of color
         # into a single byte to transfer to the panel
-        buf = [0x00] * int(self.width * self.height / 2)
+        buf: list[int] = [0x00] * int(self.width * self.height / 2)
         idx = 0
         for i in range(0, len(buf_7color), 2):
             buf[idx] = (buf_7color[i] << 4) + buf_7color[i+1]
