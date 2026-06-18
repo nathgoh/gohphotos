@@ -30,3 +30,24 @@ def _prepare_image(image_bytes: bytes) -> Image.Image:
     img = ImageOps.fit(img, (800, 480), method=Image.Resampling.LANCZOS)
     img = img.quantize(palette=_PALETTE_IMAGE, dither=Image.Dither.FLOYDSTEINBERG)
     return img.convert("RGB")
+
+
+class EpaperDisplay:
+    def __init__(self):
+        if not _HAS_HARDWARE:
+            raise RuntimeError(
+                "waveshare_epd not available — are you running on a Raspberry Pi?"
+            )
+        self._epd = epd7in3f.EPD()
+        self._epd.init()
+
+    def show(self, image_bytes: bytes) -> None:
+        img = _prepare_image(image_bytes)
+        self._epd.display(self._epd.getbuffer(img))
+        self.sleep()
+
+    def sleep(self) -> None:
+        self._epd.sleep()
+
+    def clear(self) -> None:
+        self._epd.Clear()
