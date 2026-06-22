@@ -149,10 +149,10 @@ class EPD:
         # Create a pallette with the 7 colors supported by the panel
         pal_image: Image = Image.new("P", (1,1))
         pal_image.putpalette( (0,0,0,  255,255,255,  255,255,0,  255,0,0,  0,0,0,  0,0,255,  0,255,0) + (0,0,0)*249)
-        # pal_image.putpalette( (0,0,0,  255,255,255,  0,255,0,   0,0,255,  255,0,0,  255,255,0, 255,128,0) + (0,0,0)*249)
 
         # Check if we need to rotate the image
         imwidth, imheight = image.size
+        logging.info(f"Image size: {imwidth} x {imheight}")
         if(imwidth == self.width and imheight == self.height):
             image_temp = image
         elif(imwidth == self.height and imheight == self.width):
