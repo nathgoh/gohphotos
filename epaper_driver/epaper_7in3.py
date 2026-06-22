@@ -1,6 +1,5 @@
 import logging
-import epd_config
-
+import epaper_driver.epd_config as epd_config
 from PIL import Image
 
 
@@ -16,8 +15,8 @@ class EPD:
         self.dc_pin = epd_config.DC_PIN
         self.busy_pin = epd_config.BUSY_PIN
         self.cs_pin = epd_config.CS_PIN
-        self.width = EPD_WIDTH
-        self.height = EPD_HEIGHT
+        self.width: int = EPD_WIDTH
+        self.height: int = EPD_HEIGHT
         self.BLACK  = 0x000000   #   0000  BGR
         self.WHITE  = 0xffffff   #   0001
         self.YELLOW = 0x00ffff   #   0010

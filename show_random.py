@@ -5,7 +5,7 @@ except ModuleNotFoundError:
     pass
 
 from immich_client import ImmichClient
-from epaper_display import EpaperDisplay
+from epaper_driver.epaper_display import EPD
 
 
 def main() -> None:
@@ -16,7 +16,7 @@ def main() -> None:
         asset_id = assets[0]["id"]
         image_bytes = client.get_asset_thumbnail_bytes(asset_id, size="preview")
 
-    EpaperDisplay().show(image_bytes)
+    EPD().show(image_bytes)
 
 
 if __name__ == "__main__":

@@ -33,6 +33,7 @@ class ImmichClient:
 
     def ping(self) -> bool:
         """Test connection to the Immich server."""
+        
         try:
             response: Response = self._client.get("/server/ping")
             response.raise_for_status()
@@ -42,6 +43,7 @@ class ImmichClient:
 
     def get_random_assets(self, count: int = 1) -> list[dict]:
         """Get random asset metadata from the library."""
+
         response = self._client.get("/assets/random", params={"count": count})
         response.raise_for_status()
         return response.json()
@@ -54,18 +56,21 @@ class ImmichClient:
             asset_id: The asset ID
             size: 'thumbnail' (blurred, fast) or 'preview' (larger, clearer)
         """
+
         response: Response = self._client.get(f"/assets/{asset_id}/thumbnail", params={"size": size})
         response.raise_for_status()
         return response.content
 
     def get_albums(self) -> list[dict]:
         """Get all albums."""
+
         response: Response = self._client.get("/albums")
         response.raise_for_status()
         return response.json()
 
     def get_album_assets(self, album_id: str) -> list[dict]:
         """Get all assets in an album."""
+
         response: Response = self._client.get(f"/albums/{album_id}")
         response.raise_for_status()
         return response.json().get("assets", [])

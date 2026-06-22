@@ -19,6 +19,7 @@ class RaspberryPi:
     SCLK_PIN = 11
 
     def __init__(self):
+        # pyrefly: ignore [missing-import]
         import spidev
         import gpiozero
 

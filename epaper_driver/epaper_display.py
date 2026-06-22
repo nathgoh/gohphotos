@@ -1,4 +1,4 @@
-import epaper_7in3
+import epaper_driver.epaper_7in3 as epaper_7in3
 
 from io import BytesIO
 from PIL import Image, ImageOps
@@ -29,7 +29,7 @@ def _prepare_image(image_bytes: bytes) -> Image.Image:
     return img.convert("RGB")
 
 
-class EpaperDisplay:
+class EPD:
     def __init__(self):
 
         self._epd = epaper_7in3.EPD()
