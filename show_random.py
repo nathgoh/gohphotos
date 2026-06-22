@@ -14,7 +14,7 @@ def main() -> None:
         if not assets:
             raise RuntimeError("No assets returned from Immich")
         asset_id = assets[0]["id"]
-        image_bytes = client.get_asset_thumbnail_bytes(asset_id, size="preview")
+        image_bytes = client.get_asset_bytes(asset_id, size="original")
 
     EPD().show(image_bytes)
 

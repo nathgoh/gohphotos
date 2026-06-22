@@ -152,7 +152,6 @@ class EPD:
 
         # Check if we need to rotate the image
         imwidth, imheight = image.size
-        logging.info(f"Image size: {imwidth} x {imheight}")
         if(imwidth == self.width and imheight == self.height):
             image_temp = image
         elif(imwidth == self.height and imheight == self.width):

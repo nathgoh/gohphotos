@@ -44,17 +44,17 @@ class ImmichClient:
     def get_random_assets(self, count: int = 1) -> list[dict]:
         """Get random asset metadata from the library."""
 
-        response = self._client.get("/assets/random", params={"count": count})
+        response: Response = self._client.get("/assets/random", params={"count": count})
         response.raise_for_status()
         return response.json()
 
-    def get_asset_thumbnail_bytes(self, asset_id: str, size: str = "preview") -> bytes:
+    def get_asset_bytes(self, asset_id: str, size: str = "preview") -> bytes:
         """
-        Download asset thumbnail as raw bytes.
+        Download asset as raw bytes.
 
         Args:
             asset_id: The asset ID
-            size: 'thumbnail' (blurred, fast) or 'preview' (larger, clearer)
+            size: asset size (original, full, preview, thumbnail)
         """
 
         response: Response = self._client.get(f"/assets/{asset_id}/thumbnail", params={"size": size})
