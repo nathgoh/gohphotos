@@ -1,6 +1,7 @@
+from io import BytesIO
 import epaper_driver.epaper_7in3 as epaper_7in3
 
-from PIL import Image, ImageOps
+from PIL import Image
 
 
 
@@ -18,7 +19,8 @@ class EPD:
         self.sleep()
 
     def show(self, image_bytes: bytes) -> None:
-        self._epd.display(self._epd.get_buffer(image_bytes))
+        image: Image = Image.open(BytesIO(image_bytes))
+        self._epd.display(self._epd.get_buffer(image))
         self.sleep()
 
     def sleep(self) -> None:
